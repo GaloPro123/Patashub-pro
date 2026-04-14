@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculadora Ultra-Ligera</title>
+    <style>
+        /* CSS a lo básico: rápido y limpio */
+        body { background: #121212; color: #00ff00; font-family: monospace; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { border: 2px solid #00ff00; padding: 20px; border-radius: 5px; background: #000; box-shadow: 5px 5px 0px #006600; width: 300px; }
+        h2 { font-size: 1.2rem; text-align: center; border-bottom: 1px solid #00ff00; padding-bottom: 10px; }
+        input { background: #000; border: 1px solid #00ff00; color: #00ff00; width: 100%; margin: 10px 0; padding: 5px; box-sizing: border-box; }
+        button { background: #00ff00; color: #000; border: none; width: 100%; padding: 10px; cursor: pointer; font-weight: bold; font-family: monospace; }
+        button:hover { background: #00cc00; }
+        #res { margin-top: 15px; font-size: 0.9rem; white-space: pre-line; border-top: 1px dashed #00ff00; padding-top: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>MATES_SHELL_v1.0</h2>
+    <input type="number" id="a" placeholder="Coeficiente a (x²)">
+    <input type="number" id="b" placeholder="Coeficiente b (x)">
+    <input type="number" id="c" placeholder="Coeficiente c (indep)">
+    <button onclick="calc()">EJECUTAR CÁLCULO</button>
+    <div id="res">Esperando entrada...</div>
+</div>
+
+<script>
+    // JS Vanilla: El cerebro que no consume nada
+    function calc() {
+        const a = parseFloat(document.getElementById('a').value);
+        const b = parseFloat(document.getElementById('b').value);
+        const c = parseFloat(document.getElementById('c').value);
+        const out = document.getElementById('res');
+
+        if (isNaN(a) || isNaN(b) || isNaN(c)) { out.innerText = "ERROR: Faltan datos."; return; }
+        if (a === 0) { out.innerText = "ERROR: No es 2º grado (a=0)."; return; }
+
+        const disc = b*b - 4*a*c;
+        
+        if (disc > 0) {
+            let x1 = (-b + Math.sqrt(disc)) / (2*a);
+            let x2 = (-b - Math.sqrt(disc)) / (2*a);
+            out.innerText = `OK: Dos soluciones\nx1: ${x1.toFixed(3)}\nx2: ${x2.toFixed(3)}`;
+        } else if (disc === 0) {
+            out.innerText = `OK: Única\nx: ${(-b/(2*a)).toFixed(3)}`;
+        } else {
+            let r = (-b/(2*a)).toFixed(2);
+            let i = (Math.sqrt(-disc)/(2*a)).toFixed(2);
+            out.innerText = `COMPLEJAS:\nx1: ${r} + ${i}i\nx2: ${r} - ${i}i`;
+        }
+    }
+</script>
+
+</body>
+</html>
